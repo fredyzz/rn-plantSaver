@@ -1,6 +1,7 @@
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { theme } from "@/theme";
 import { useUserStore } from "@/store/userStore";
+import { PlantSaverButton } from "@/components/plantSaverButton";
 
 export default function ProfileScreen() {
   const toggleHasFinishedOnboarding = useUserStore(
@@ -13,7 +14,7 @@ export default function ProfileScreen() {
 
   return (
     <View style={styles.container}>
-      <Button title="Back to Onboarding" onPress={handlePress} />
+      <PlantSaverButton title="Back to Onboarding" onPress={handlePress} />
     </View>
   );
 }
