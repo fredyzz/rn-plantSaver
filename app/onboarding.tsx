@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import { PlantSaverButton } from "@/components/plantSaverButton";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
+import { PlantSaverImage } from "@/components/plantSaverImage";
 
 export default function OnboardingScreen() {
   const router = useRouter();
@@ -25,7 +26,11 @@ export default function OnboardingScreen() {
       style={styles.container}
     >
       <StatusBar style="light" />
-      <Text style={styles.text}>Onboarding</Text>
+      <Text style={styles.text}>Plant Saver</Text>
+      <Text style={styles.subtext}>
+        Save your plants, keep them healthy and happy
+      </Text>
+      <PlantSaverImage />
       <PlantSaverButton title="Finish Onboarding" onPress={handlePress} />
     </LinearGradient>
   );
@@ -34,11 +39,20 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     backgroundColor: theme.colorWhite,
   },
   text: {
+    fontSize: 42,
+    color: theme.colorWhite,
+    fontWeight: "bold",
+  },
+  subtext: {
     fontSize: 24,
+    marginBottom: 24,
+    marginTop: 12,
+    color: theme.colorWhite,
+    textAlign: "center",
   },
 });
