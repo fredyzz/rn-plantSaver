@@ -2,12 +2,13 @@ import { FlatList, StyleSheet } from "react-native";
 import { theme } from "@/theme";
 import { usePlantStore } from "@/store/plantsStore";
 import { PlantCard } from "@/components/PlantCard";
-import { PlantSaverButton } from "../../components/plantSaverButton";
+import { PlantSaverButton } from "../../../components/plantSaverButton";
 import { useRouter } from "expo-router";
 
 export default function App() {
   const router = useRouter();
   const plants = usePlantStore((state) => state.plants);
+  console.log(plants);
 
   return (
     <FlatList

@@ -1,4 +1,11 @@
-import { Text, StyleSheet, TextInput, Alert, View } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  TextInput,
+  Alert,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import { theme } from "@/theme";
 
 import { useState } from "react";
@@ -7,10 +14,13 @@ import { PlantSaverButton } from "@/components/plantSaverButton";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { usePlantStore } from "@/store/plantsStore";
 import { useRouter } from "expo-router";
+import * as ImagePicker from "expo-image-picker";
 
 export default function NewScreen() {
   const [name, setName] = useState<string>();
   const [days, setDays] = useState<string>();
+  const [image, setImage] = useState<string | undefined>(undefined);
+
   const addPlant = usePlantStore((state) => state.addPlant);
   const router = useRouter();
 
@@ -33,8 +43,25 @@ export default function NewScreen() {
       );
     }
 
-    addPlant(name, Number(days));
+    addPlant(name, Number(days), image);
     router.replace("/");
+  };
+
+  const handleChooseImage = async () => {
+    if (Platform.OS === "web") return;
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: "images",
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    console.log(JSON.stringify(result, null, 2));
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
   };
 
   return (
@@ -43,9 +70,13 @@ export default function NewScreen() {
       contentContainerStyle={styles.contentContainer}
       keyboardShouldPersistTaps="handled"
     >
-      <View style={styles.centered}>
-        <PlantSaverImage />
-      </View>
+      <TouchableOpacity
+        style={styles.centered}
+        activeOpacity={0.8}
+        onPress={handleChooseImage}
+      >
+        <PlantSaverImage imageUri={image} />
+      </TouchableOpacity>
       <Text style={styles.label}>Name</Text>
       <TextInput
         value={name}
@@ -91,5 +122,6 @@ const styles = StyleSheet.create({
   },
   centered: {
     alignItems: "center",
+    marginBottom: 24,
   },
 });
